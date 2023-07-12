@@ -1,0 +1,76 @@
+
+.board {
+    --tile-dimension: 30px;
+    --row-length: 4;
+    max-width: calc(var(--tile-dimension) * var(--row-length) + 5px);
+
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 5px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.displayPanel {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.resetButton > button {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 1.2em;
+}
+
+.cellGrid > ul {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--tile-dimension), 1fr));
+    grid-auto-rows: var(--tile-dimension);
+    max-width: calc(var(--row-length) * var(--tile-dimension));
+    justify-items: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    list-style: none;
+
+    padding-left: 0px;
+}
+
+.cellGrid > ul > li {
+    font-size: 1.3em;
+}
+
+.game_options {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+input {
+    width: 2rem;
+}
+
+.options > ul {
+    list-style: none;
+    padding-left: 0px;
+
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+}
+
+.options > ul > li:hover {
+    color:blue;
+    cursor: pointer;
+
+}
