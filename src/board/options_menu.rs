@@ -19,8 +19,6 @@ pub fn OptionsMenu(cx: Scope) -> impl IntoView {
 
     let handle_option_click =move |_| {
         option_clicked_set(true);
-        let msg = format!("Clicked option");
-        web_sys::console::log_1(&msg.into());
     };
 
     let handle_cancel = move |_| {
@@ -57,6 +55,7 @@ pub fn OptionsMenu(cx: Scope) -> impl IntoView {
                             on:input=move |ev| set_height(event_target_value(&ev))
                         />
                     </div>
+                    <div>
                         <label for="width">"Width"</label>
                         <input 
                             type="number" 
@@ -65,6 +64,7 @@ pub fn OptionsMenu(cx: Scope) -> impl IntoView {
                             prop:value={width}
                             on:input=move |ev| set_width(event_target_value(&ev))
                         />
+                    </div>
                     <div>
                         <label for="mines">"Mines"</label>
                         <input 
@@ -78,7 +78,6 @@ pub fn OptionsMenu(cx: Scope) -> impl IntoView {
                     </div>
                     <button on:click=handle_new_game.clone()>"New Game"</button>
                     <button on:click=handle_cancel.clone()>"Cancel"</button>
-                    <p>{height}</p>
                 </div>
             }.into_any()
         }

@@ -10,7 +10,6 @@ use leptos::*;
 use leptos::ev::MouseEvent;
 use rand::thread_rng;
 use rand::seq::SliceRandom;
-use web_sys::console;
 use uuid::Uuid;
 
 use options_menu::OptionsMenu;
@@ -141,13 +140,6 @@ impl BoardState {
     }
 
     fn cell_click(cx: Scope, board_state: BoardState, cell: RwSignal<Cell>) {
-        /*let board_state_option = use_context::<BoardState>(cx);
-        if board_state_option.is_none() {
-            let msg = "panic!";
-            unsafe { console::log_1(&msg.into()); }
-        }
-        let board_state = board_state_option.unwrap(); */
-
         if board_state.game_status.get_untracked() == GameStatus::InProgress {
             match cell.get_untracked() {
                 ref c @ Cell::Empty{cell_status: CellStatus::Hidden, mines: 0, id: self_idx, ..} => {
@@ -157,8 +149,6 @@ impl BoardState {
                     for (x, y) in adjacent_list {
                         let adj_idx = board_state.get_coord_index(&Coordinate(x, y));
                         if self_idx != adj_idx {
-                            //let msg = format!("Sending click to {:?}", board_state.cells.get_untracked()[adj_idx].get());
-                            //unsafe { console::log_1(&msg.into()); }
                             BoardState::cell_click(cx, board_state, board_state.cells.get_untracked()[adj_idx]);
                         }
                     } 
@@ -166,7 +156,6 @@ impl BoardState {
                 ref c @ Cell::Empty{cell_status: CellStatus::Hidden, ..} => cell.set(c.new_status(CellStatus::Revealed)),
                 ref c @ Cell::Mine{cell_status: CellStatus::Hidden, ..}=> {
                     cell.set(c.new_status(CellStatus::Revealed));
-                    board_state.game_status.set(GameStatus::Lost);
                 },
                 _ => (),
             }
@@ -243,6 +232,7 @@ impl BoardState {
         let cells = self.cells.get();
         for cell in cells.iter() {
             if let Cell::Empty{cell_status: CellStatus::Hidden, ..} = cell.get() { return false }
+            else if let Cell::Empty{cell_status: CellStatus::Flagged, ..} = cell.get() { return false }
         }
         true
     }
